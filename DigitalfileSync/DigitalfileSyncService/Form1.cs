@@ -4,10 +4,10 @@ using System.Text.Json.Serialization;
 
 namespace DigitalfileSyncService
 {
-    public partial class 文件处理程序 : Form
+    public partial class 图片识别工具 : Form
     {
         private string pathname = string.Empty;
-        public 文件处理程序()
+        public 图片识别工具()
         {
             InitializeComponent();
         }
@@ -52,7 +52,7 @@ namespace DigitalfileSyncService
         private void btnSelectFile_Click(object sender, EventArgs e)
         {
             this.folderBrowserDialog1.ShowDialog();
-            this.textBox1.Text = this.folderBrowserDialog1.SelectedPath;
+            //this.textBox1.Text = this.folderBrowserDialog1.SelectedPath;
         }
 
         /// <summary>
@@ -118,7 +118,15 @@ namespace DigitalfileSyncService
 
                 foreach (var item in resJson.data)
                 {
-                    sb.AppendLine(item.text);
+                    if (chkBox1.Checked)
+                    {
+                        sb.AppendLine(item.text);
+                    }
+                    else
+                    {
+                        sb.Append(item.text);
+                    }
+                   
                 }
 
 

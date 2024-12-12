@@ -11,7 +11,7 @@ namespace DigitalfileSyncService
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new 文件处理程序());
+            Application.Run(new 图片识别工具());
         }
     }
 }
