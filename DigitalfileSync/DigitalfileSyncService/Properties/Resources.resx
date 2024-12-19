@@ -117,4 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="sourceFilePath" xml:space="preserve">
+    <value>C:\Users\Administrator\Desktop\TestFileScanProject</value>
+  </data>
+  <data name="targetFilePath" xml:space="preserve">
+    <value>D:\TestFileScanProjectCopy</value>
+  </data>
 </root>

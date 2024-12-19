@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DigitalfileSyncService.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="aaaaa" Type="System.String" Scope="User">
+      <Value Profile="(Default)">aaaaaaaaaaaaaaaaaaaa</Value>
+    </Setting>
+    <Setting Name="bbbb" Type="System.String" Scope="User">
+      <Value Profile="(Default)">bbbbbbbbbbbbbbbbbb</Value>
+    </Setting>
+    <Setting Name="ccccc" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ccccccccccccccccccccccc</Value>
+    </Setting>
+    <Setting Name="apiUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://localhost:9726</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
