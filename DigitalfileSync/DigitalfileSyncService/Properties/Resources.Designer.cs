@@ -59,23 +59,5 @@ namespace DigitalfileSyncService.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   查找类似 C:\Users\Administrator\Desktop\TestFileScanProject 的本地化字符串。
-        /// </summary>
-        internal static string sourceFilePath {
-            get {
-                return ResourceManager.GetString("sourceFilePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 D:\TestFileScanProjectCopy 的本地化字符串。
-        /// </summary>
-        internal static string targetFilePath {
-            get {
-                return ResourceManager.GetString("targetFilePath", resourceCulture);
-            }
-        }
     }
 }

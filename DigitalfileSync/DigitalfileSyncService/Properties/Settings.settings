@@ -2,17 +2,20 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DigitalfileSyncService.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="aaaaa" Type="System.String" Scope="User">
-      <Value Profile="(Default)">aaaaaaaaaaaaaaaaaaaa</Value>
-    </Setting>
-    <Setting Name="bbbb" Type="System.String" Scope="User">
-      <Value Profile="(Default)">bbbbbbbbbbbbbbbbbb</Value>
-    </Setting>
-    <Setting Name="ccccc" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">ccccccccccccccccccccccc</Value>
-    </Setting>
     <Setting Name="apiUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://localhost:9726</Value>
+    </Setting>
+    <Setting Name="zipFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\TestFileScanProjectCopyZip</Value>
+    </Setting>
+    <Setting Name="targetFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\TestFileScanProjectCopy</Value>
+    </Setting>
+    <Setting Name="sourceFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\Administrator\Desktop\TestFileScanProject</Value>
+    </Setting>
+    <Setting Name="uploadTimeInterval" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -25,39 +25,6 @@ namespace DigitalfileSyncService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("aaaaaaaaaaaaaaaaaaaa")]
-        public string aaaaa {
-            get {
-                return ((string)(this["aaaaa"]));
-            }
-            set {
-                this["aaaaa"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("bbbbbbbbbbbbbbbbbb")]
-        public string bbbb {
-            get {
-                return ((string)(this["bbbb"]));
-            }
-            set {
-                this["bbbb"] = value;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ccccccccccccccccccccccc")]
-        public string ccccc {
-            get {
-                return ((string)(this["ccccc"]));
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:9726")]
         public string apiUrl {
             get {
@@ -65,6 +32,54 @@ namespace DigitalfileSyncService.Properties {
             }
             set {
                 this["apiUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\TestFileScanProjectCopyZip")]
+        public string zipFilePath {
+            get {
+                return ((string)(this["zipFilePath"]));
+            }
+            set {
+                this["zipFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\TestFileScanProjectCopy")]
+        public string targetFilePath {
+            get {
+                return ((string)(this["targetFilePath"]));
+            }
+            set {
+                this["targetFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Administrator\\Desktop\\TestFileScanProject")]
+        public string sourceFilePath {
+            get {
+                return ((string)(this["sourceFilePath"]));
+            }
+            set {
+                this["sourceFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int uploadTimeInterval {
+            get {
+                return ((int)(this["uploadTimeInterval"]));
+            }
+            set {
+                this["uploadTimeInterval"] = value;
             }
         }
     }

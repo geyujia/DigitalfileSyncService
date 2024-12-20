@@ -54,6 +54,7 @@
             progressBar = new ProgressBar();
             btnSync = new Button();
             panel2 = new Panel();
+            btnEnd = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -255,11 +256,11 @@
             // 
             // btnSync
             // 
-            btnSync.Location = new Point(447, 393);
+            btnSync.Location = new Point(436, 393);
             btnSync.Name = "btnSync";
             btnSync.Size = new Size(82, 31);
             btnSync.TabIndex = 15;
-            btnSync.Text = "同步";
+            btnSync.Text = "同步开始";
             btnSync.UseVisualStyleBackColor = true;
             btnSync.Click += btnSync_Click;
             // 
@@ -279,12 +280,23 @@
             panel2.Size = new Size(595, 161);
             panel2.TabIndex = 16;
             // 
+            // btnEnd
+            // 
+            btnEnd.Location = new Point(524, 393);
+            btnEnd.Name = "btnEnd";
+            btnEnd.Size = new Size(75, 31);
+            btnEnd.TabIndex = 17;
+            btnEnd.Text = "同步结束";
+            btnEnd.UseVisualStyleBackColor = true;
+            btnEnd.Click += this.btnEnd_Click;
+            // 
             // 文件处理程序
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(619, 448);
+            Controls.Add(btnEnd);
             Controls.Add(panel2);
             Controls.Add(btnSync);
             Controls.Add(progressBar);
@@ -328,5 +340,6 @@
         private ProgressBar progressBar;
         private Button btnSync;
         private Panel panel2;
+        private Button btnEnd;
     }
 }
