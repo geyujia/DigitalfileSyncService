@@ -74,9 +74,9 @@ namespace DigitalfileSyncService.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public int uploadTimeInterval {
+        public decimal uploadTimeInterval {
             get {
-                return ((int)(this["uploadTimeInterval"]));
+                return ((decimal)(this["uploadTimeInterval"]));
             }
             set {
                 this["uploadTimeInterval"] = value;

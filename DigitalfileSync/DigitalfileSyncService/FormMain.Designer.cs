@@ -33,14 +33,13 @@
             txtSourcePath = new TextBox();
             btnOk = new Button();
             label2 = new Label();
-            txt地址 = new TextBox();
+            txtAddress = new TextBox();
             btnSelectFile = new Button();
             openFileDialog1 = new OpenFileDialog();
             label3 = new Label();
             txtTargetPath = new TextBox();
             folderBrowserDialog2 = new FolderBrowserDialog();
             btnSelFile2 = new Button();
-            btnUdp1 = new Button();
             label4 = new Label();
             label5 = new Label();
             txtUserName = new TextBox();
@@ -54,9 +53,18 @@
             progressBar = new ProgressBar();
             btnSync = new Button();
             panel2 = new Panel();
+            btnSelectFile3 = new Button();
+            numuploadTimeInterval = new NumericUpDown();
+            txtZipFilePath = new TextBox();
+            label9 = new Label();
+            label8 = new Label();
+            btnUdp3 = new Button();
             btnEnd = new Button();
+            folderBrowserDialog3 = new FolderBrowserDialog();
+            lblProgressPercentage = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numuploadTimeInterval).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -70,14 +78,14 @@
             // 
             // txtSourcePath
             // 
-            txtSourcePath.Location = new Point(126, 6);
+            txtSourcePath.Location = new Point(126, 12);
             txtSourcePath.Name = "txtSourcePath";
             txtSourcePath.Size = new Size(282, 23);
             txtSourcePath.TabIndex = 1;
             // 
             // btnOk
             // 
-            btnOk.Location = new Point(327, 393);
+            btnOk.Location = new Point(335, 432);
             btnOk.Name = "btnOk";
             btnOk.Size = new Size(91, 31);
             btnOk.TabIndex = 2;
@@ -88,22 +96,22 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(32, 121);
+            label2.Location = new Point(32, 157);
             label2.Name = "label2";
             label2.Size = new Size(83, 17);
             label2.TabIndex = 3;
             label2.Text = "同步服务地址:";
             // 
-            // txt地址
+            // txtAddress
             // 
-            txt地址.Location = new Point(126, 115);
-            txt地址.Name = "txt地址";
-            txt地址.Size = new Size(282, 23);
-            txt地址.TabIndex = 4;
+            txtAddress.Location = new Point(126, 151);
+            txtAddress.Name = "txtAddress";
+            txtAddress.Size = new Size(282, 23);
+            txtAddress.TabIndex = 4;
             // 
             // btnSelectFile
             // 
-            btnSelectFile.Location = new Point(424, 7);
+            btnSelectFile.Location = new Point(443, 7);
             btnSelectFile.Name = "btnSelectFile";
             btnSelectFile.Size = new Size(93, 26);
             btnSelectFile.TabIndex = 5;
@@ -118,7 +126,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(8, 64);
+            label3.Location = new Point(8, 48);
             label3.Name = "label3";
             label3.Size = new Size(107, 17);
             label3.TabIndex = 6;
@@ -126,30 +134,20 @@
             // 
             // txtTargetPath
             // 
-            txtTargetPath.Location = new Point(126, 64);
+            txtTargetPath.Location = new Point(126, 48);
             txtTargetPath.Name = "txtTargetPath";
             txtTargetPath.Size = new Size(282, 23);
             txtTargetPath.TabIndex = 7;
             // 
             // btnSelFile2
             // 
-            btnSelFile2.Location = new Point(425, 64);
+            btnSelFile2.Location = new Point(443, 45);
             btnSelFile2.Name = "btnSelFile2";
-            btnSelFile2.Size = new Size(93, 23);
+            btnSelFile2.Size = new Size(93, 28);
             btnSelFile2.TabIndex = 8;
             btnSelFile2.Text = "选择文件位置";
             btnSelFile2.UseVisualStyleBackColor = true;
             btnSelFile2.Click += btnSelFile2_Click;
-            // 
-            // btnUdp1
-            // 
-            btnUdp1.Location = new Point(524, 6);
-            btnUdp1.Name = "btnUdp1";
-            btnUdp1.Size = new Size(54, 26);
-            btnUdp1.TabIndex = 9;
-            btnUdp1.Text = "修改";
-            btnUdp1.UseVisualStyleBackColor = true;
-            btnUdp1.Click += btnUdp1_Click;
             // 
             // label4
             // 
@@ -249,14 +247,14 @@
             // 
             // progressBar
             // 
-            progressBar.Location = new Point(12, 350);
+            progressBar.Location = new Point(12, 367);
             progressBar.Name = "progressBar";
-            progressBar.Size = new Size(595, 23);
+            progressBar.Size = new Size(548, 23);
             progressBar.TabIndex = 14;
             // 
             // btnSync
             // 
-            btnSync.Location = new Point(436, 393);
+            btnSync.Location = new Point(444, 432);
             btnSync.Name = "btnSync";
             btnSync.Size = new Size(82, 31);
             btnSync.TabIndex = 15;
@@ -266,36 +264,103 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(btnSelectFile3);
+            panel2.Controls.Add(numuploadTimeInterval);
+            panel2.Controls.Add(txtZipFilePath);
+            panel2.Controls.Add(label9);
+            panel2.Controls.Add(label8);
+            panel2.Controls.Add(btnUdp3);
             panel2.Controls.Add(txtTargetPath);
             panel2.Controls.Add(label1);
             panel2.Controls.Add(txtSourcePath);
             panel2.Controls.Add(label2);
-            panel2.Controls.Add(btnUdp1);
-            panel2.Controls.Add(txt地址);
+            panel2.Controls.Add(txtAddress);
             panel2.Controls.Add(btnSelFile2);
             panel2.Controls.Add(btnSelectFile);
             panel2.Controls.Add(label3);
             panel2.Location = new Point(12, 167);
             panel2.Name = "panel2";
-            panel2.Size = new Size(595, 161);
+            panel2.Size = new Size(595, 194);
             panel2.TabIndex = 16;
+            // 
+            // btnSelectFile3
+            // 
+            btnSelectFile3.Location = new Point(443, 82);
+            btnSelectFile3.Name = "btnSelectFile3";
+            btnSelectFile3.Size = new Size(93, 23);
+            btnSelectFile3.TabIndex = 16;
+            btnSelectFile3.Text = "选择文件位置";
+            btnSelectFile3.UseVisualStyleBackColor = true;
+            btnSelectFile3.Click += btnSelectFile3_Click;
+            // 
+            // numuploadTimeInterval
+            // 
+            numuploadTimeInterval.Location = new Point(127, 119);
+            numuploadTimeInterval.Name = "numuploadTimeInterval";
+            numuploadTimeInterval.Size = new Size(281, 23);
+            numuploadTimeInterval.TabIndex = 15;
+            // 
+            // txtZipFilePath
+            // 
+            txtZipFilePath.Location = new Point(126, 82);
+            txtZipFilePath.Name = "txtZipFilePath";
+            txtZipFilePath.Size = new Size(282, 23);
+            txtZipFilePath.TabIndex = 14;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(32, 125);
+            label9.Name = "label9";
+            label9.Size = new Size(83, 17);
+            label9.TabIndex = 13;
+            label9.Text = "同步时间间隔:";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(20, 88);
+            label8.Name = "label8";
+            label8.Size = new Size(95, 17);
+            label8.TabIndex = 12;
+            label8.Text = "压缩后文件目录:";
+            // 
+            // btnUdp3
+            // 
+            btnUdp3.Location = new Point(461, 147);
+            btnUdp3.Name = "btnUdp3";
+            btnUdp3.Size = new Size(75, 27);
+            btnUdp3.TabIndex = 11;
+            btnUdp3.Text = "保存配置";
+            btnUdp3.UseVisualStyleBackColor = true;
+            btnUdp3.Click += btnUdp3_Click;
             // 
             // btnEnd
             // 
-            btnEnd.Location = new Point(524, 393);
+            btnEnd.Location = new Point(532, 432);
             btnEnd.Name = "btnEnd";
             btnEnd.Size = new Size(75, 31);
             btnEnd.TabIndex = 17;
             btnEnd.Text = "同步结束";
             btnEnd.UseVisualStyleBackColor = true;
-            btnEnd.Click += this.btnEnd_Click;
+            btnEnd.Click += btnEnd_Click;
+            // 
+            // lblProgressPercentage
+            // 
+            lblProgressPercentage.AutoSize = true;
+            lblProgressPercentage.Location = new Point(566, 373);
+            lblProgressPercentage.Name = "lblProgressPercentage";
+            lblProgressPercentage.Size = new Size(50, 17);
+            lblProgressPercentage.TabIndex = 18;
+            lblProgressPercentage.Text = "label10";
             // 
             // 文件处理程序
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            ClientSize = new Size(619, 448);
+            ClientSize = new Size(619, 489);
+            Controls.Add(lblProgressPercentage);
             Controls.Add(btnEnd);
             Controls.Add(panel2);
             Controls.Add(btnSync);
@@ -309,7 +374,9 @@
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numuploadTimeInterval).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -319,14 +386,13 @@
         private TextBox txtSourcePath;
         private Button btnOk;
         private Label label2;
-        private TextBox txt地址;
+        private TextBox txtAddress;
         private Button btnSelectFile;
         private OpenFileDialog openFileDialog1;
         private Label label3;
         private TextBox txtTargetPath;
         private FolderBrowserDialog folderBrowserDialog2;
         private Button btnSelFile2;
-        private Button btnUdp1;
         private Label label4;
         private Label label5;
         private TextBox txtUserName;
@@ -341,5 +407,13 @@
         private Button btnSync;
         private Panel panel2;
         private Button btnEnd;
+        private Button btnUdp3;
+        private Label label9;
+        private Label label8;
+        private NumericUpDown numuploadTimeInterval;
+        private TextBox txtZipFilePath;
+        private FolderBrowserDialog folderBrowserDialog3;
+        private Button btnSelectFile3;
+        private Label lblProgressPercentage;
     }
 }
