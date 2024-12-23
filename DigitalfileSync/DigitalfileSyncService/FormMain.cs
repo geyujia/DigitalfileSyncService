@@ -61,14 +61,42 @@ namespace DigitalfileSyncService
                 zipFilePathFolder = txtZipFilePath.Text ?? Settings.Default.zipFilePath;
                 apiUrl = txtAddress.Text ?? Settings.Default.apiUrl;
 
+                List<string> zipFileList = new List<string>();
+                var str = "";
+                string zipFilepath = sourceFolder + @"\zipRemark.txt";
+                if (File.Exists(zipFilepath))
+                {
+                    str = await File.ReadAllTextAsync(zipFilepath);
+                }
+                else
+                {
+                    await File.AppendAllTextAsync(zipFilepath, "");
+                }
+                UpdateProgressBar(5);
+                var group = str.Split('\n');
+                foreach (var item in group)
+                {
+                    zipFileList.Add(item.Replace("\r", "").ToString());
+                }
+
                 List<ZipFileInfo> files = new List<ZipFileInfo>();
                 string[] zipfiles = Directory.GetFiles(zipFilePathFolder);
+                var sb = new StringBuilder();
                 foreach (var item in zipfiles)
                 {
+                    var fileName = Path.GetFileName(item);
+                    if (fileName.Equals("zipRemark.txt", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        continue;
+                    }
+                    if (!zipFileList.Exists(x => x == fileName))
+                    {
+                        continue;
+                    }
                     if (File.Exists(item))
                     {
                         var file = new ZipFileInfo();
-                        file.fileName = Path.GetFileName(item);
+                        file.fileName = fileName;
                         file.filePath = item;
                         file.fileSize = (int)new FileInfo(item).Length;
                         file.lastWriteTime = File.GetLastAccessTime(item);
@@ -92,6 +120,7 @@ namespace DigitalfileSyncService
                                 var resultRsp = JsonConvert.DeserializeObject<Result<string>>(result);
                                 if (resultRsp.data == "1")
                                 {
+                                    sb.AppendLine(file.fileName);
                                     MessageBox.Show($"上传成功:" + file.fileName);
                                 }
                             }
@@ -101,14 +130,16 @@ namespace DigitalfileSyncService
                             }
 
                         }
-
-                        File.Delete(item);
+                       
+                        //File.Delete(item);
                     }
-
                 }
+                //记录已复制文件
+                await File.AppendAllTextAsync(zipFilepath, sb.ToString());
             }
             catch (Exception ex)
             {
+                Log.Error($"定时器触发事件异常:{ex}");
                 MessageBox.Show($"定时器触发事件异常:{ex}");
             }
 
