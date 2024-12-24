@@ -49,18 +49,6 @@ namespace DigitalfileSyncService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\TestFileScanProjectCopy")]
-        public string targetFilePath {
-            get {
-                return ((string)(this["targetFilePath"]));
-            }
-            set {
-                this["targetFilePath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Administrator\\Desktop\\TestFileScanProject")]
         public string sourceFilePath {
             get {
@@ -80,6 +68,30 @@ namespace DigitalfileSyncService.Properties {
             }
             set {
                 this["uploadTimeInterval"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string userName {
+            get {
+                return ((string)(this["userName"]));
+            }
+            set {
+                this["userName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string userPwd {
+            get {
+                return ((string)(this["userPwd"]));
+            }
+            set {
+                this["userPwd"] = value;
             }
         }
     }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DigitalfileSyncService
 {
-    public partial class 文件处理程序 : Form
+    public partial class FormMain : Form
     {
         private string sourceFolder = string.Empty;
         private string targetFolder = string.Empty;
@@ -17,20 +17,20 @@ namespace DigitalfileSyncService
 
         private string projectId = string.Empty;
         private string singleId = string.Empty;
+        private string accord = "0";
         //初始化定时器
         System.Timers.Timer timer1 = new System.Timers.Timer();
-        public 文件处理程序()
+        public FormMain()
         {
             InitializeComponent();
-            this.txtTargetPath.Text = Settings.Default.targetFilePath;
             this.txtSourcePath.Text = Settings.Default.sourceFilePath;
             this.txtZipFilePath.Text = Settings.Default.zipFilePath;
             this.numuploadTimeInterval.Value = Settings.Default.uploadTimeInterval;
             this.txtAddress.Text = Settings.Default.apiUrl;
 
-            this.txtPwd.Text = "666666";
-            this.txtUserName.Text = "姜毅";
-
+            
+            this.txtPwd.Text = Settings.Default.userPwd;
+            this.txtUserName.Text = Settings.Default.userName;
 
             //初始化ProgressBar1
             this.progressBar.Location = new Point(this.progressBar.Location.X, this.progressBar.Location.Y + 30);
@@ -43,11 +43,34 @@ namespace DigitalfileSyncService
 
             //初始化进度百分比标签
             this.lblProgressPercentage.Text = "0%";
+            this.lblProgressPercentage.Visible = false;
             this.Controls.Add(this.lblProgressPercentage);
 
             //按钮状态控制
             this.btnEnd.Enabled = false;
 
+            //加载列表
+            if (!this.txtUserName.Text.IsNullOrEmpty() && !this.txtPwd.Text.IsNullOrEmpty() && !this.txtAddress.Text.IsNullOrEmpty())
+            {
+                LoadProjectList(this.txtUserName.Text, this.txtPwd.Text);
+                LoadZujuanyijuList();
+            }
+           
+        }
+
+        #region 其它事件实现
+        /// <summary>
+        /// 窗体关闭事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void 文件处理程序_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("确定要退出吗,还有未进行完的操作？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
         }
         /// <summary>
         /// 定时器事件
@@ -63,7 +86,7 @@ namespace DigitalfileSyncService
 
                 List<string> zipFileList = new List<string>();
                 var str = "";
-                string zipFilepath = sourceFolder + @"\zipRemark.txt";
+                string zipFilepath = zipFilePathFolder + @"\zipRemark.txt";
                 if (File.Exists(zipFilepath))
                 {
                     str = await File.ReadAllTextAsync(zipFilepath);
@@ -72,7 +95,7 @@ namespace DigitalfileSyncService
                 {
                     await File.AppendAllTextAsync(zipFilepath, "");
                 }
-                UpdateProgressBar(5);
+                //UpdateProgressBar(5);
                 var group = str.Split('\n');
                 foreach (var item in group)
                 {
@@ -89,7 +112,7 @@ namespace DigitalfileSyncService
                     {
                         continue;
                     }
-                    if (!zipFileList.Exists(x => x == fileName))
+                    if (zipFileList.Exists(x => x == fileName))
                     {
                         continue;
                     }
@@ -110,6 +133,7 @@ namespace DigitalfileSyncService
                             var content = new MultipartFormDataContent();
                             content.Add(new StringContent(projectId), "ProjectId");
                             content.Add(new StringContent(singleId), "SingleId");
+                            content.Add(new StringContent(accord), "accord");
                             content.Add(new StreamContent(File.OpenRead(item)), "file", file.fileName);
                             request.Content = content;
                             var response = await client.SendAsync(request);
@@ -121,16 +145,16 @@ namespace DigitalfileSyncService
                                 if (resultRsp.data == "1")
                                 {
                                     sb.AppendLine(file.fileName);
-                                    MessageBox.Show($"上传成功:" + file.fileName);
+                                    MessageBox.Show($"上传成功:" + file.fileName, "提示");
                                 }
                             }
                             else
                             {
-                                MessageBox.Show($"上传失败:{response.StatusCode}");
+                                MessageBox.Show($"上传失败:{response.StatusCode}", "提示");
                             }
 
                         }
-                       
+
                         //File.Delete(item);
                     }
                 }
@@ -139,11 +163,13 @@ namespace DigitalfileSyncService
             }
             catch (Exception ex)
             {
-                Log.Error($"定时器触发事件异常:{ex}");
-                MessageBox.Show($"定时器触发事件异常:{ex}");
+                Log.Error($"上传文件异常:{ex}");
+                MessageBox.Show($"上传文件异常:{ex}");
             }
 
         }
+
+        #endregion
 
         #region 按钮事件
         /// <summary>
@@ -153,25 +179,25 @@ namespace DigitalfileSyncService
         /// <param name="e"></param>
         private async void btnOk_Click(object sender, EventArgs e)
         {
+            //需要做一个大小判断
             try
             {
-
                 Log.Information("btnOk_Click 事件触发");
                 sourceFolder = txtSourcePath.Text ?? Settings.Default.sourceFilePath;
-                targetFolder = txtTargetPath.Text ?? Settings.Default.targetFilePath;
                 zipFilePathFolder = txtZipFilePath.Text ?? Settings.Default.zipFilePath;
-
+                targetFolder = zipFilePathFolder + "/Temp";
                 if (sourceFolder == string.Empty || targetFolder == string.Empty)
                 {
                     MessageBox.Show("请先选择源文件夹和目标文件夹");
                     return;
                 }
-                DialogResult res = MessageBox.Show("确认进行同步操作吗？", "提示", MessageBoxButtons.YesNo);
+                DialogResult res = MessageBox.Show("确认进行同步操作吗？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (res == DialogResult.Yes)
                 {
-                    this.btnOk.Enabled = false;
                     #region  进度条
+                    this.btnOk.Enabled = false;
                     this.progressBar.Visible = true;
+                    this.lblProgressPercentage.Visible = true;
                     #endregion
                     UpdateProgressBar(1);
                     List<string> picList = new List<string>();
@@ -236,32 +262,44 @@ namespace DigitalfileSyncService
                         ZipHelper.CreateZip(targetFolder, destinationZipFile);
                         //删除临时文件
                         DeleteFilesExceptZip(targetFolder);
+                        UpdateProgressBar(100);
+                        EndResetProgressBar();
                         MessageBox.Show("同步完成", "提示", MessageBoxButtons.OK);
                     }
                     else
                     {
-                        UpdateProgressBar(70);
+                        UpdateProgressBar(100);
+                        EndResetProgressBar();
                         MessageBox.Show("没有需要同步的文件", "提示", MessageBoxButtons.OK);
                     }
-                    UpdateProgressBar(100);
-                    this.progressBar.Visible = false;
-                    this.btnOk.Enabled = true;
                 }
                 else
                 {
                     UpdateProgressBar(100);
-                    this.btnOk.Enabled = true;
+                    EndResetProgressBar();
                     this.Close();
                 }
             }
             catch (Exception ex)
             {
                 this.btnOk.Enabled = true;
+                this.progressBar.Visible = false;
+                this.lblProgressPercentage.Visible = false;
                 UpdateProgressBar(100);
                 Log.Error(ex, "btnOk_Click 事件处理失败");
                 MessageBox.Show($"btnOk_Click 事件处理失败: {ex.Message}");
             }
         }
+        /// <summary>
+        /// 进度条结束状态
+        /// </summary>
+        private void EndResetProgressBar()
+        {
+            this.progressBar.Visible = false;
+            this.lblProgressPercentage.Visible = false;
+            this.btnOk.Enabled = true;
+        }
+
         /// <summary>
         /// 登录按钮事件
         /// </summary>
@@ -270,6 +308,11 @@ namespace DigitalfileSyncService
         private async void btnLogin_Click(object sender, EventArgs e)
         {
             apiUrl = this.txtAddress.Text ?? Settings.Default.apiUrl;
+            var name = this.txtUserName.Text ?? Settings.Default.userName;
+            var pwd = this.txtPwd.Text ?? Settings.Default.userPwd;
+            Settings.Default.userName = name;
+            Settings.Default.userPwd = pwd;
+            Settings.Default.Save();
             try
             {
                 if (txtUserName.Text.Length == 0 || txtPwd.Text.Length == 0)
@@ -278,27 +321,7 @@ namespace DigitalfileSyncService
                     return;
                 }
 
-                using (var client = new HttpClient())
-                {
-                    var request = new HttpRequestMessage(HttpMethod.Post, $"{apiUrl}/Web/ProjectSingle/GetProjectByUser?UserName={this.txtUserName.Text}&UserPwd={this.txtPwd.Text}");
-                    var response = await client.SendAsync(request);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var result = await response.Content.ReadAsStringAsync();
-                        var resJson = JsonConvert.DeserializeObject<Result<List<Project>>>(result);
-                        this.cmbBoxProject.Items.Clear();
-                        cmbBoxProject.DataSource = resJson.data;
-                        cmbBoxProject.DisplayMember = "ProjectName";
-                        cmbBoxProject.ValueMember = "Id";
-                        this.cmbBoxProject.SelectedIndex = 0;
-                        // 加载单体列表
-                        await LoadSingleProjectList();
-                    }
-                    else
-                    {
-                        MessageBox.Show("登录失败!");
-                    }
-                }
+                await LoadProjectList(name, pwd);
             }
             catch (Exception ex)
             {
@@ -308,6 +331,8 @@ namespace DigitalfileSyncService
 
 
         }
+
+       
         /// <summary>
         /// 项目选择事件
         /// </summary>
@@ -329,26 +354,42 @@ namespace DigitalfileSyncService
         /// <param name="e"></param>
         private void btnSync_Click(object sender, EventArgs e)
         {
+            //MessageBox.Show("同步功能暂未开放，敬请期待！"+ this.cmbBoxzujuanYijun.SelectedValue);
             uploadTimeInterval = (this.numuploadTimeInterval.Value == 0) ? Settings.Default.uploadTimeInterval : this.numuploadTimeInterval.Value;
-            if (cmbBoxProject.DataSource == null)
+            if (cmbBoxProject.DataSource == null || cmbBoxSingle.DataSource == null)
             {
-                DialogResult result = MessageBox.Show("请先选择项目!", "提示", MessageBoxButtons.OK);
+                DialogResult result = MessageBox.Show("请先选择项目和单体信息!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Question);
                 return;
             }
-            else
+
+            if (string.IsNullOrEmpty(this.txtZipFilePath.Text))
+            {
+                MessageBox.Show("目标地址不能为空!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                return;
+            }
+
+            DialogResult dialog = MessageBox.Show("请确认选择项目、单体、组卷依据信息是否正确，进行该同步操作？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialog == DialogResult.Yes)
             {
                 //赋值
                 projectId = this.cmbBoxProject.SelectedValue?.ToString();
                 singleId = this.cmbBoxSingle.SelectedValue?.ToString();
+                accord = this.cmbBoxzujuanYijun.SelectedValue?.ToString();
                 timer1.Enabled = true;//开启
                 timer1.Interval = (double)(uploadTimeInterval * 1000);//设置时间间隔 毫秒
                 timer1.AutoReset = false;//设置执行次数，true为无限循环，false为只执行一次
                 timer1.Elapsed += Timer1_Tick;
                 this.timer1.Start();//开始执行
-                //按钮状态控制
+                                    //按钮状态控制
                 this.btnSync.Enabled = false;
                 this.btnEnd.Enabled = true;
             }
+            else
+            {
+                return;
+            }
+         
+
         }
 
         /// <summary>
@@ -373,7 +414,7 @@ namespace DigitalfileSyncService
         {
 
             UpdateSourceFilePath();
-            MessageBox.Show("保存成功！");
+            MessageBox.Show("保存成功！", "提示");
 
         }
         #endregion
@@ -391,17 +432,6 @@ namespace DigitalfileSyncService
         }
 
         /// <summary>
-        /// 同步目标文件地址
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnSelFile2_Click(object sender, EventArgs e)
-        {
-            this.folderBrowserDialog2.ShowDialog();
-            this.txtTargetPath.Text = this.folderBrowserDialog2.SelectedPath;
-        }
-
-        /// <summary>
         /// 选择文件按钮事件
         /// </summary>
         /// <param name="sender"></param>
@@ -413,7 +443,7 @@ namespace DigitalfileSyncService
         }
         #endregion
 
-        #region 方法体
+        #region 私有方法体
         /// <summary>
         /// 获取单体列表
         /// </summary>
@@ -490,7 +520,6 @@ namespace DigitalfileSyncService
         private void UpdateSourceFilePath()
         {
             Settings.Default.sourceFilePath = this.txtSourcePath.Text;
-            Settings.Default.targetFilePath = this.txtTargetPath.Text;
             Settings.Default.zipFilePath = this.txtZipFilePath.Text;
             Settings.Default.apiUrl = this.txtAddress.Text;
             Settings.Default.uploadTimeInterval = this.numuploadTimeInterval.Value;
@@ -513,10 +542,64 @@ namespace DigitalfileSyncService
                 this.lblProgressPercentage.Text = $"{value}%";
             }
         }
+        /// <summary>
+        /// 加载施工依据列表
+        /// </summary>
+        /// <returns></returns>
+        private async Task LoadZujuanyijuList()
+        {
+            try
+            {
+                apiUrl = this.txtAddress.Text ?? Settings.Default.apiUrl;
+                using (var client = new HttpClient())
+                {
+                    var request = new HttpRequestMessage(HttpMethod.Post, $"{apiUrl}/Common/Common/GetDictListById?sortId=73");
+                    var response = await client.SendAsync(request);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var result = await response.Content.ReadAsStringAsync();
+                        var resJson = JsonConvert.DeserializeObject<Result<List<DictRsp>>>(result);
+                        cmbBoxzujuanYijun.DataSource = resJson.data;
+                        cmbBoxzujuanYijun.DisplayMember = "kName";
+                        cmbBoxzujuanYijun.ValueMember = "dictKey";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var e = $"加载组件依据信息出错:{ex.Message}";
+                Log.Error(e);
+                MessageBox.Show(e);
+            }
+
+        }
+        private async Task LoadProjectList(string name, string pwd)
+        {
+            apiUrl = this.txtAddress.Text ?? Settings.Default.apiUrl;
+            using (var client = new HttpClient())
+            {
+                var request = new HttpRequestMessage(HttpMethod.Post, $"{apiUrl}/Web/ProjectSingle/GetProjectByUser?UserName={name}&UserPwd={pwd}");
+                var response = await client.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+                    var resJson = JsonConvert.DeserializeObject<Result<List<Project>>>(result);
+                    //this.cmbBoxProject.Items.Clear();
+                    cmbBoxProject.DataSource = resJson.data;
+                    cmbBoxProject.DisplayMember = "ProjectName";
+                    cmbBoxProject.ValueMember = "Id";
+                    this.cmbBoxProject.SelectedIndex = 0;
+                    // 加载单体列表
+                    await LoadSingleProjectList();
+                }
+                else
+                {
+                    MessageBox.Show("登录失败!");
+                }
+            }
+        }
+
         #endregion
-
-
-
 
     }
 

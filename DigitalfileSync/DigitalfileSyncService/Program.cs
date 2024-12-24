@@ -29,7 +29,7 @@ namespace DigitalfileSyncService
                 // see https://aka.ms/applicationconfiguration.
                 Log.Information("应用程序启动");
                 ApplicationConfiguration.Initialize();
-                Application.Run(new 文件处理程序());
+                Application.Run(new FormMain());
             }
             catch (Exception ex)
             {
