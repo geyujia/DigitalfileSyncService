@@ -150,7 +150,8 @@ namespace DigitalfileSyncService
                             }
                             else
                             {
-                                MessageBox.Show($"上传失败:{response.StatusCode}", "提示");
+                                Log.Error($"上传文件异常:{response.Content.ReadAsStringAsync()}");
+                                MessageBox.Show($"上传失败:{response.Content.ReadAsStringAsync()}", "提示");
                             }
 
                         }
@@ -322,14 +323,16 @@ namespace DigitalfileSyncService
                 }
 
                 await LoadProjectList(name, pwd);
+                if (this.cmbBoxzujuanYijun.DataSource == null)
+                {
+                    await LoadZujuanyijuList();
+                }
+                
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"登录异常：{ex.Message}");
             }
-
-
         }
 
        
@@ -341,8 +344,6 @@ namespace DigitalfileSyncService
         private async void cmbBoxProject_SelectedIndexChanged(object sender, EventArgs e)
         {
             apiUrl = this.txtAddress.Text ?? Settings.Default.apiUrl;
-            //this.cmbBoxSingle.Items.Clear();
-
             await LoadSingleProjectList();
         }
 
@@ -413,7 +414,7 @@ namespace DigitalfileSyncService
         private void btnUdp3_Click(object sender, EventArgs e)
         {
 
-            UpdateSourceFilePath();
+            UpdateConfigFilePath();
             MessageBox.Show("保存成功！", "提示");
 
         }
@@ -517,7 +518,7 @@ namespace DigitalfileSyncService
         /// <summary>
         /// 更新配置文件
         /// </summary>
-        private void UpdateSourceFilePath()
+        private  void UpdateConfigFilePath()
         {
             Settings.Default.sourceFilePath = this.txtSourcePath.Text;
             Settings.Default.zipFilePath = this.txtZipFilePath.Text;
