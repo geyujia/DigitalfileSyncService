@@ -1,4 +1,6 @@
 using Newtonsoft.Json;
+using PdfiumViewer;
+using System.Drawing.Imaging;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -18,31 +20,50 @@ namespace DigitalfileSyncService
         /// <param name="e"></param>
         private void btnOk_Click(object sender, EventArgs e)
         {
-            //DialogResult res  =MessageBox.Show("确认进行同步操作吗？","提示",MessageBoxButtons.YesNo);
-            //if (res == DialogResult.Yes)
-            //{
-            //    this.Close();
-            //}
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "PDF Files|*.pdf";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string pdfPath = openFileDialog.FileName;
+                string outputDirectory = Path.Combine(Path.GetDirectoryName(pdfPath), "PDFPages");
+
+                if (!Directory.Exists(outputDirectory))
+                {
+                    Directory.CreateDirectory(outputDirectory);
+                }
+
+                using (var document = PdfDocument.Load(pdfPath))
+                {
+                    for (int i = 0; i < document.PageCount; i++)
+                    {
+                        using (var image = RenderPage(document, i, 100, 100))
+                        {
+                            string outputPath = Path.Combine(outputDirectory, $"page_{i + 1}.png");
+                            image.Save(outputPath, ImageFormat.Png);
+                            Console.WriteLine($"Saved page {i + 1} to {outputPath}");
+                        }
+                    }
+                }
+
+                MessageBox.Show("PDF to image conversion completed.");
+            }
 
 
-            //string path = @"c:\MyTest.txt";
-            //// 此文本只添加到文件一次。
-            //if (!File.Exists(path))
-            //{
-            //    // 创建要写入的文件。
-            //    string createText = "Hello and Welcome" + Environment.NewLine;
-            //    File.WriteAllText(path, createText);
-            //}
-            //// 这个文本总是被添加，使文件随着时间的推移而变长
-            //// 如果它没有被删除。
-            ////string appendText = "This is extra text" + Environment.NewLine;
-            //File.AppendAllText(path, sb.ToString());
-            //// 打开文件进行读取。
-            //string readText = File.ReadAllText(path);
-            //Console.WriteLine(readText);
+        }
+        static Image RenderPage(PdfDocument document, int pageIndex, int dpiX, int dpiY)
+        {
+            var size = document.PageSizes[pageIndex];
+            var width = (int)(size.Width * dpiX / 72);
+            var height = (int)(size.Height * dpiY / 72);
 
-            // var data = response.data;
+            var bitmap = new Bitmap(width, height);
+            using (var graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.Clear(Color.White);
+                graphics.DrawImage(document.Render(pageIndex, width, height, dpiX, dpiY, true), 0, 0);
+            }
 
+            return bitmap;
         }
         /// <summary>
         /// 选择文件
@@ -51,8 +72,11 @@ namespace DigitalfileSyncService
         /// <param name="e"></param>
         private void btnSelectFile_Click(object sender, EventArgs e)
         {
-            this.folderBrowserDialog1.ShowDialog();
-            this.textBox1.Text = this.folderBrowserDialog1.SelectedPath;
+            //this.folderBrowserDialog1.ShowDialog();
+            //this.textBox1.Text = this.folderBrowserDialog1.SelectedPath;
+            this.openFileDialog1.ShowDialog();
+            this.textBox1.Text = this.openFileDialog1.FileName;
+
         }
 
         /// <summary>
@@ -71,7 +95,7 @@ namespace DigitalfileSyncService
                 try
                 {
                     pathname = file.FileName;   //获得文件的绝对路径
-                    this.picBox.Load(pathname);
+                  
                 }
                 catch (Exception ex)
                 {
@@ -120,9 +144,6 @@ namespace DigitalfileSyncService
                 {
                     sb.AppendLine(item.text);
                 }
-
-
-                this.txtContent.Text = sb.ToString();
             }
 
         }
