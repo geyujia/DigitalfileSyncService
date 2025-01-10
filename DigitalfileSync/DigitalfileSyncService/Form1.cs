@@ -3,6 +3,7 @@ using PdfiumViewer;
 using System.Drawing.Imaging;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Windows.Forms;
 
 namespace DigitalfileSyncService
 {
@@ -20,35 +21,56 @@ namespace DigitalfileSyncService
         /// <param name="e"></param>
         private void btnOk_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "PDF Files|*.pdf";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                string pdfPath = openFileDialog.FileName;
-                string outputDirectory = Path.Combine(Path.GetDirectoryName(pdfPath), "PDFPages");
+                //openFileDialog1.Filter = "PDF Files|*.pdf";
+                //string pdfPath = openFileDialog1.FileName;
+                var n = 0;
+
+                string folderPath = this.folderBrowserDialog1.SelectedPath;
+                if (string.IsNullOrEmpty(folderPath))
+                {
+                    MessageBox.Show("请选择一个文件夹");
+                    return;
+                }
+
+                string[] pdfFiles = Directory.GetFiles(folderPath, "*.pdf");
+                if (pdfFiles.Length == 0)
+                {
+                    MessageBox.Show("文件夹中没有找到 PDF 文件");
+                    return;
+                }
+                string outputDirectory = Path.Combine(Path.GetDirectoryName(folderPath), "PDFPages", Path.GetFileNameWithoutExtension(folderPath));
 
                 if (!Directory.Exists(outputDirectory))
                 {
                     Directory.CreateDirectory(outputDirectory);
                 }
 
-                using (var document = PdfDocument.Load(pdfPath))
+                foreach (string pdfPath in pdfFiles)
                 {
-                    for (int i = 0; i < document.PageCount; i++)
+                    n++;
+                    using (var document = PdfDocument.Load(pdfPath))
                     {
-                        using (var image = RenderPage(document, i, 100, 100))
+                        for (int i = 0; i < document.PageCount; i++)
                         {
-                            string outputPath = Path.Combine(outputDirectory, $"page_{i + 1}.png");
-                            image.Save(outputPath, ImageFormat.Png);
-                            Console.WriteLine($"Saved page {i + 1} to {outputPath}");
+                            using (var image = RenderPage(document, i, 100, 100))
+                            {
+                                string outputPath = Path.Combine(outputDirectory, $"image_{n * 10000 + (i + 1)}.jpg");
+                                image.Save(outputPath, ImageFormat.Jpeg);
+                                //Console.WriteLine($"Saved page {i + 1} to {outputPath}");
+                            }
                         }
                     }
                 }
 
+
                 MessageBox.Show("PDF to image conversion completed.");
             }
-
-
+            catch (Exception ex)
+            {
+                MessageBox.Show("PDF to image conversion Error." + ex.Message);
+            }
         }
         static Image RenderPage(PdfDocument document, int pageIndex, int dpiX, int dpiY)
         {
@@ -72,10 +94,12 @@ namespace DigitalfileSyncService
         /// <param name="e"></param>
         private void btnSelectFile_Click(object sender, EventArgs e)
         {
-            //this.folderBrowserDialog1.ShowDialog();
-            //this.textBox1.Text = this.folderBrowserDialog1.SelectedPath;
-            this.openFileDialog1.ShowDialog();
-            this.textBox1.Text = this.openFileDialog1.FileName;
+            this.folderBrowserDialog1.ShowDialog();
+            this.textBox1.Text = this.folderBrowserDialog1.SelectedPath;
+            //this.openFileDialog1.ShowDialog();
+            // this.textBox1.Text= openFileDialog1.FileName;
+
+
 
         }
 
@@ -95,7 +119,7 @@ namespace DigitalfileSyncService
                 try
                 {
                     pathname = file.FileName;   //获得文件的绝对路径
-                  
+
                 }
                 catch (Exception ex)
                 {
@@ -125,7 +149,7 @@ namespace DigitalfileSyncService
                 var content = new MultipartFormDataContent();
 
                 ////获取当前程序所在的文件路径
-               // var pathname = @"C:\Users\Administrator\Desktop\TestFileScanProject\image0000000002A.jpg";
+                // var pathname = @"C:\Users\Administrator\Desktop\TestFileScanProject\image0000000002A.jpg";
                 var request = new HttpRequestMessage(HttpMethod.Post, url);
                 content.Add(new StreamContent(System.IO.File.OpenRead(pathname)), "image", pathname);
                 request.Content = content;
