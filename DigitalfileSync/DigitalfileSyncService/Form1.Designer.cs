@@ -35,16 +35,20 @@
             openFileDialog1 = new OpenFileDialog();
             btnShibie = new Button();
             chkBox1 = new CheckBox();
-            tabControl1 = new TabControl();
+            tab识别框 = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
+            btnSaveHtml = new Button();
             btnHtmlReg = new Button();
             txtHtmlContent = new TextBox();
-            btnSaveHtml = new Button();
+            tabPaddleOCRsHARP = new TabPage();
+            txtPaddleOCRContent = new TextBox();
+            btnPaddleOcr = new Button();
             ((System.ComponentModel.ISupportInitialize)picBox).BeginInit();
-            tabControl1.SuspendLayout();
+            tab识别框.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
+            tabPaddleOCRsHARP.SuspendLayout();
             SuspendLayout();
             // 
             // txtContent
@@ -100,15 +104,16 @@
             chkBox1.Text = "是否换行";
             chkBox1.UseVisualStyleBackColor = true;
             // 
-            // tabControl1
+            // tab识别框
             // 
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Location = new Point(585, 12);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(939, 707);
-            tabControl1.TabIndex = 12;
+            tab识别框.Controls.Add(tabPage1);
+            tab识别框.Controls.Add(tabPage2);
+            tab识别框.Controls.Add(tabPaddleOCRsHARP);
+            tab识别框.Location = new Point(585, 12);
+            tab识别框.Name = "tab识别框";
+            tab识别框.SelectedIndex = 0;
+            tab识别框.Size = new Size(939, 705);
+            tab识别框.TabIndex = 12;
             // 
             // tabPage1
             // 
@@ -118,7 +123,7 @@
             tabPage1.Location = new Point(4, 26);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(931, 677);
+            tabPage1.Size = new Size(931, 675);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "图片识别文本";
             tabPage1.UseVisualStyleBackColor = true;
@@ -131,10 +136,20 @@
             tabPage2.Location = new Point(4, 26);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(931, 677);
+            tabPage2.Size = new Size(931, 675);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "图片识别为Html";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btnSaveHtml
+            // 
+            btnSaveHtml.Location = new Point(148, 638);
+            btnSaveHtml.Name = "btnSaveHtml";
+            btnSaveHtml.Size = new Size(75, 31);
+            btnSaveHtml.TabIndex = 2;
+            btnSaveHtml.Text = "保存文件";
+            btnSaveHtml.UseVisualStyleBackColor = true;
+            btnSaveHtml.Click += btnSaveHtml_Click;
             // 
             // btnHtmlReg
             // 
@@ -154,32 +169,54 @@
             txtHtmlContent.Size = new Size(919, 626);
             txtHtmlContent.TabIndex = 0;
             // 
-            // btnSaveHtml
+            // tabPaddleOCRsHARP
             // 
-            btnSaveHtml.Location = new Point(148, 638);
-            btnSaveHtml.Name = "btnSaveHtml";
-            btnSaveHtml.Size = new Size(75, 31);
-            btnSaveHtml.TabIndex = 2;
-            btnSaveHtml.Text = "保存文件";
-            btnSaveHtml.UseVisualStyleBackColor = true;
-            btnSaveHtml.Click += btnSaveHtml_Click;
+            tabPaddleOCRsHARP.Controls.Add(btnPaddleOcr);
+            tabPaddleOCRsHARP.Controls.Add(txtPaddleOCRContent);
+            tabPaddleOCRsHARP.Location = new Point(4, 26);
+            tabPaddleOCRsHARP.Name = "tabPaddleOCRsHARP";
+            tabPaddleOCRsHARP.Padding = new Padding(3);
+            tabPaddleOCRsHARP.Size = new Size(931, 675);
+            tabPaddleOCRsHARP.TabIndex = 2;
+            tabPaddleOCRsHARP.Text = "飞浆OCR识别";
+            tabPaddleOCRsHARP.UseVisualStyleBackColor = true;
+            // 
+            // txtPaddleOCRContent
+            // 
+            txtPaddleOCRContent.Location = new Point(24, 20);
+            txtPaddleOCRContent.Multiline = true;
+            txtPaddleOCRContent.Name = "txtPaddleOCRContent";
+            txtPaddleOCRContent.Size = new Size(883, 397);
+            txtPaddleOCRContent.TabIndex = 13;
+            // 
+            // btnPaddleOcr
+            // 
+            btnPaddleOcr.Location = new Point(47, 482);
+            btnPaddleOcr.Name = "btnPaddleOcr";
+            btnPaddleOcr.Size = new Size(75, 23);
+            btnPaddleOcr.TabIndex = 14;
+            btnPaddleOcr.Text = "识别";
+            btnPaddleOcr.UseVisualStyleBackColor = true;
+            btnPaddleOcr.Click += btnPaddleOcr_Click;
             // 
             // 图片识别工具
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1536, 719);
-            Controls.Add(tabControl1);
+            Controls.Add(tab识别框);
             Controls.Add(btnSelImage);
             Controls.Add(picBox);
             Name = "图片识别工具";
             Text = "图片识别工具(内部)";
             ((System.ComponentModel.ISupportInitialize)picBox).EndInit();
-            tabControl1.ResumeLayout(false);
+            tab识别框.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
+            tabPaddleOCRsHARP.ResumeLayout(false);
+            tabPaddleOCRsHARP.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -192,11 +229,14 @@
         private OpenFileDialog openFileDialog1;
         private Button btnShibie;
         private CheckBox chkBox1;
-        private TabControl tabControl1;
+        private TabControl tab识别框;
         private TabPage tabPage1;
         private TabPage tabPage2;
         private TextBox txtHtmlContent;
         private Button btnHtmlReg;
         private Button btnSaveHtml;
+        private TabPage tabPaddleOCRsHARP;
+        private TextBox txtPaddleOCRContent;
+        private Button btnPaddleOcr;
     }
 }

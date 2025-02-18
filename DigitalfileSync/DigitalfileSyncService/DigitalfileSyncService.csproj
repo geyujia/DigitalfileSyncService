@@ -9,7 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ebxadxw2.ktb~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="PaddleOCRSharp" Version="4.4.0.2" />
   </ItemGroup>
 
   <ItemGroup>

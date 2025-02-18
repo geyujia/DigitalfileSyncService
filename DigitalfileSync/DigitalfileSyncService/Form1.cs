@@ -1,6 +1,8 @@
 using Newtonsoft.Json;
+using PaddleOCRSharp;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Windows.Forms;
 
 namespace DigitalfileSyncService
 {
@@ -118,7 +120,7 @@ namespace DigitalfileSyncService
 
                     var resJson = JsonConvert.DeserializeObject<Root>(result);
 
-                   // var response = Newtonsoft.Json.JsonConvert.DeserializeObject<Root>(t);
+                    // var response = Newtonsoft.Json.JsonConvert.DeserializeObject<Root>(t);
 
                     foreach (var item in resJson.data)
                     {
@@ -152,10 +154,10 @@ namespace DigitalfileSyncService
 
             string t = "{\"code\":200,\"msg\":\"请求成功\",\"data\":\"\\n    <!DOCTYPE html>\\n    <html lang=\\\"zh-CN\\\">\\n    <head>\\n    <meta charset=\\\"UTF-8\\\">\\n    <title>Complex Table Example</title>\\n    <style>\\n        table {\\n            border-collapse: collapse;\\n            width: 100%;\\n        }\\n        th, td {\\n            border: 1px solid black;\\n            padding: 8px;\\n            text-align: center;\\n        }\\n        th {\\n            background-color: #f2f2f2;\\n        }\\n    </style>\\n    </head>\\n    <body>\\n    <table><tr><td rowspan=1 colspan=6>材料、构配件进场检验记录<br>表C4-44</td><td rowspan=1 colspan=1>资料编号</td><td rowspan=1 colspan=2>07-00-C4-011</td></tr><tr><td rowspan=1 colspan=2>工程名称</td><td rowspan=1 colspan=4>北京市通州经济开发区西区南扩区三、五、六期<br>棚户区改造项目FZX-1102-6002地块F3其他类多<br>功能用地项目（未来建筑科创中心等2项）</td><td rowspan=1 colspan=1>进场日期</td><td rowspan=1 colspan=2>2024年10月09日</td></tr><tr><td rowspan=1 colspan=2>施工单位</td><td rowspan=1 colspan=4>北京建工集团有限责任公司</td><td rowspan=1 colspan=1>分包单位</td><td rowspan=1 colspan=2>1</td></tr><tr><td rowspan=1 colspan=1>序<br>号</td><td rowspan=1 colspan=2>名称</td><td rowspan=1 colspan=1>规格<br>型号</td><td rowspan=1 colspan=1>进场<br>数量</td><td rowspan=1 colspan=1>生产厂家</td><td rowspan=1 colspan=1>质量证明<br>文件核查</td><td rowspan=1 colspan=1>外观检验<br>结果</td><td rowspan=1 colspan=1>复验情况</td></tr><tr><td rowspan=1 colspan=1></td><td rowspan=1 colspan=2>金属穿线管（JDG）</td><td rowspan=1 colspan=1>206000m</td><td rowspan=1 colspan=1>206000m</td><td rowspan=1 colspan=1>北京中发金<br>属电线管制<br>造有限公司</td><td rowspan=1 colspan=1>符合  日<br>不符合</td><td rowspan=1 colspan=1>合格<br>不合格□</td><td rowspan=1 colspan=1>不需复验<br>复验合格    口<br>复验不合格</td></tr><tr><td rowspan=1 colspan=1>2</td><td rowspan=1 colspan=2>金属穿线管（JDG）</td><td rowspan=1 colspan=1>中25</td><td rowspan=1 colspan=1>2000<br>m</td><td rowspan=1 colspan=1>北京中发金<br>属电线管制<br>造有限公司</td><td rowspan=1 colspan=1>符合<br>不符合□</td><td rowspan=1 colspan=1>合格<br>不合格</td><td rowspan=1 colspan=1>不需复验<br>复验合格    □<br>复验不合格</td></tr><tr><td rowspan=1 colspan=1>3</td><td rowspan=1 colspan=2>一</td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1>—</td><td rowspan=1 colspan=1>—</td><td rowspan=1 colspan=1>符合  □<br>不符合□</td><td rowspan=1 colspan=1>合格<br>不合格□</td><td rowspan=1 colspan=1>不需复验    口<br>复验合格    □<br>复验不合格</td></tr><tr><td rowspan=1 colspan=1>4</td><td rowspan=1 colspan=2></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1>—</td><td rowspan=1 colspan=1>符合<br>不符合</td><td rowspan=1 colspan=1>合格<br>不合格□</td><td rowspan=1 colspan=1>不需复验    口<br>复验合格    □<br>复验不合格</td></tr><tr><td rowspan=1 colspan=1>5</td><td rowspan=1 colspan=2></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1>—</td><td rowspan=1 colspan=1>符合<br>不符合□</td><td rowspan=1 colspan=1>合格<br>不合格</td><td rowspan=1 colspan=1>不需复验<br>复验合格    □<br>复验不合格</td></tr><tr><td rowspan=1 colspan=9>施工单位检查意见：<br>外观及质量证明文件：      符合要求 不符合要求口  日期：    2024年10月04日<br>需要复验项目的复验结论：   符合要求 不符合要求口  日期：    2024年10月04日<br>附件共（      ）页</td></tr><tr><td rowspan=1 colspan=9>监理单位审查意见：<br>符合要求，同意使用        不符合要求，退场 □ 日期 2024年10月04日</td></tr><tr><td rowspan=2 colspan=1>签<br>字<br>栏</td><td rowspan=1 colspan=4>施工单位材料验收负责人</td><td rowspan=1 colspan=2>分包单位材料验收负责人</td><td rowspan=1 colspan=2>专业监理工程师</td></tr><tr><td rowspan=1 colspan=4>黄利园</td><td rowspan=1 colspan=2>/</td><td rowspan=1 colspan=2></td></tr><tr><td rowspan=1 colspan=3>制表日期</td><td rowspan=1 colspan=6>2024年10月09日</td></tr></table>\\n    </body>\\n    </html>\\n    \"}";
             #endregion
-           // var resJson = Newtonsoft.Json.JsonConvert.DeserializeObject<RootHtml>(t);
+            // var resJson = Newtonsoft.Json.JsonConvert.DeserializeObject<RootHtml>(t);
             string url = @"http://192.168.2.30:8000/api/v2/table/html";
 
-           
+
             StringBuilder sb = new StringBuilder();
             var html = string.Empty;
             try
@@ -185,7 +187,7 @@ namespace DigitalfileSyncService
                         html = res.data;
 
                     }
-                  
+
                 }
                 this.txtHtmlContent.Text = html.Replace("\n", " ");
 
@@ -200,7 +202,7 @@ namespace DigitalfileSyncService
 
         private void btnSaveHtml_Click(object sender, EventArgs e)
         {
-           string h= this.txtHtmlContent.Text;
+            string h = this.txtHtmlContent.Text;
             if (string.IsNullOrEmpty(h))
             {
                 MessageBox.Show("请先识别图片");
@@ -210,8 +212,42 @@ namespace DigitalfileSyncService
             {
                 string path = $@"C:\html_{DateTime.Now.ToString("yyyyMMddHHmmss")}.html";
                 File.WriteAllText(path, h);
-                MessageBox.Show("保存成功,"+ path);
+                MessageBox.Show("保存成功," + path);
             }
+        }
+
+        /// <summary>
+        /// paddleOcr
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnPaddleOcr_Click(object sender, EventArgs e)
+        {
+            txtPaddleOCRContent.Text = "";
+            PaddleOCREngine engine=new PaddleOCREngine();
+            Bitmap imagebyte = new Bitmap(this.picBox.Image);
+            OCRModelConfig config = null;
+            //OCR参数	
+            OCRParameter oCRParameter = new OCRParameter();
+            oCRParameter.cpu_math_library_num_threads = 10;//预测并发线程数	
+
+            oCRParameter.enable_mkldnn = true;//web部署该值建议设置为0,否则出错，内存如果使用很大，建议该值也设置为0.	
+            oCRParameter.cls = false; //是否执行文字方向分类；默认false	
+            oCRParameter.det = true;//是否开启方向检测，用于检测识别180旋转	
+            oCRParameter.use_angle_cls = false;//是否开启方向检测，用于检测识别180旋转	oCRParameter.det_db_score_mode = true;//是否使用多段线，即文字区域是用多段线还是用矩形，	oCRParameter.max_side_len = 1500;	
+            oCRParameter.rec_img_h = 48;
+            oCRParameter.rec_img_w = 320;
+            oCRParameter.det_db_thresh = 0.3f;
+            oCRParameter.det_db_box_thresh = 0.618f;
+            //初始化OCR引擎	
+            //engine = new PaddleOCREngine(config, oCRParameter);
+            //模型配置，使用默认值	
+            StructureModelConfig structureModelConfig = null;
+            //表格识别参数配置，使用默认值	
+            StructureParameter structureParameter = new StructureParameter();
+            PaddleStructureEngine structengine = new PaddleStructureEngine(structureModelConfig, structureParameter);
+            OCRResult ocrResult = engine.DetectText(imagebyte);
+            txtPaddleOCRContent.AppendText(ocrResult.Text);
         }
     }
 }
